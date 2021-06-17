@@ -5,6 +5,7 @@
    "main": "index.js",
    "author": "E-wave",
    "license": "MIT",
+   "type": "module",
    "dependencies": {
       "express": "^4.17.1",
       "typeorm": "0.2.34",
