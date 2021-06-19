@@ -1,25 +1,38 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn} from "typeorm";
+import * as bcrypt from "bcryptjs";
 
 @Entity()
 export class User {
 
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn("uuid")
+    id: string;
 
-    @Column()
-    firstName: string;
+    @Column({type:"varchar",unique:true,nullable:false})
+    email: string;
 
-    @Column()
-    lastName: string;
+    @Column({nullable:false})
+    password: string;
 
-    @Column()
-    age: number;
+    @CreateDateColumn()
+    createdAt:Date
 
-    constructor(id:number,firstName:string,lastName:string,age:number){
-        this.id = id;
-        this.firstName = firstName
-        this.lastName = lastName
-        this.age = age
+    @UpdateDateColumn()
+    updatedAt:Date
+
+    constructor(id:string,email:string,password:string,age:number,created:Date,updated:Date){
+        this.id= id;
+        this.email = email;
+        this.password = password;
+        this.createdAt = created;
+        this.updatedAt = updated
+    }
+    //create a hashpassword method
+    hashPassword() {
+        this.password = bcrypt.hashSync(this.password, 8);
     }
 
+        //chheck the validity of an old password before it is changed
+        checkIfOldPasswordIsValid(unencryptedPassword: string) {
+            return bcrypt.compareSync(unencryptedPassword, this.password);
+          }
 }

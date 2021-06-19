@@ -7,33 +7,47 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import * as bcrypt from "bcryptjs";
 let User = class User {
-    constructor(id, firstName, lastName, age) {
+    constructor(id, email, password, age, created, updated) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.age = age;
+        this.email = email;
+        this.password = password;
+        this.createdAt = created;
+        this.updatedAt = updated;
+    }
+    //create a hashpassword method
+    hashPassword() {
+        this.password = bcrypt.hashSync(this.password, 8);
+    }
+    //chheck the validity of an old password before it is changed
+    checkIfOldPasswordIsValid(unencryptedPassword) {
+        return bcrypt.compareSync(unencryptedPassword, this.password);
     }
 };
 __decorate([
-    PrimaryGeneratedColumn(),
-    __metadata("design:type", Number)
+    PrimaryGeneratedColumn("uuid"),
+    __metadata("design:type", String)
 ], User.prototype, "id", void 0);
 __decorate([
-    Column(),
+    Column({ type: "varchar", unique: true, nullable: false }),
     __metadata("design:type", String)
-], User.prototype, "firstName", void 0);
+], User.prototype, "email", void 0);
 __decorate([
-    Column(),
+    Column({ nullable: false }),
     __metadata("design:type", String)
-], User.prototype, "lastName", void 0);
+], User.prototype, "password", void 0);
 __decorate([
-    Column(),
-    __metadata("design:type", Number)
-], User.prototype, "age", void 0);
+    CreateDateColumn(),
+    __metadata("design:type", Date)
+], User.prototype, "createdAt", void 0);
+__decorate([
+    UpdateDateColumn(),
+    __metadata("design:type", Date)
+], User.prototype, "updatedAt", void 0);
 User = __decorate([
     Entity(),
-    __metadata("design:paramtypes", [Number, String, String, Number])
+    __metadata("design:paramtypes", [String, String, String, Number, Date, Date])
 ], User);
 export { User };
