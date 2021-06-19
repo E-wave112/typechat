@@ -6,11 +6,11 @@ import { router } from "./routes/routes.js";
 
 const app = express() 
 
-const port:number = 3000
+const PORT:number = 3000
 app.use(express.json())
 app.use('/',router)
 
-app.listen(():void=> console.log(`this app is running on port ${port}`))
+app.listen(PORT, ():void=> console.log(`this app is running on port ${PORT}`))
 
 // createConnection().then(async connection => {
 

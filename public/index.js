@@ -2,10 +2,10 @@ import "reflect-metadata";
 import express from 'express';
 import { router } from "./routes/routes.js";
 const app = express();
-const port = 3000;
+const PORT = 3000;
 app.use(express.json());
 app.use('/', router);
-app.listen(() => console.log(`this app is running on port ${port}`));
+app.listen(PORT, () => console.log(`this app is running on port ${PORT}`));
 // createConnection().then(async connection => {
 //     console.log("Inserting a new user into the database...");
 //     const user = new User();
