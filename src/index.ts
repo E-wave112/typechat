@@ -5,15 +5,19 @@ import express from 'express';
 import { router } from "./routes/routes.js";
 import morgan from 'morgan';
 
-const app = express() 
+createConnection().then(async connection => {
+    const app = express() 
+    const PORT:number = 3000
+    app.use(express.json())
+    app.use(morgan('dev'))
 
-const PORT:number = 3000
-app.use(express.json())
-app.use(morgan('dev'))
+    app.use('/',router)
 
-app.use('/',router)
+    app.listen(PORT, ():void=> console.log(`this app is running on port ${PORT}`))
 
-app.listen(PORT, ():void=> console.log(`this app is running on port ${PORT}`))
+    
+}).catch(err => console.error(err))
+
 
 // createConnection().then(async connection => {
 

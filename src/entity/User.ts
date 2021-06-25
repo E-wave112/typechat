@@ -1,4 +1,5 @@
 import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn} from "typeorm";
+import {isEmail} from "class-validator"
 import * as bcrypt from "bcryptjs";
 
 @Entity()
@@ -8,6 +9,7 @@ export class User {
     id: string;
 
     @Column({type:"varchar",unique:true,nullable:false})
+    @isEmail()
     email: string;
 
     @Column({nullable:false})
