@@ -9,7 +9,6 @@ export class User {
     id: string;
 
     @Column({type:"varchar",unique:true,nullable:false})
-    @isEmail()
     email: string;
 
     @Column({nullable:false})

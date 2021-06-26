@@ -4,19 +4,48 @@ import {User} from "./entity/User.js";
 import express from 'express';
 import { router } from "./routes/routes.js";
 import morgan from 'morgan';
+import * as mysql from "mysql"
+import {config} from "dotenv"
+config()
+let connection = mysql.createConnection({
+  host     : process.env.RDS_HOSTNAME,
+  user     : process.env.RDS_USERNAME,
+  password : process.env.RDS_PASSWORD,
+  port     : Number(process.env.RDS_PORT)||3306,
+  timeout: 60000
+});
 
-createConnection().then(async connection => {
+
+connection.connect(function(err) {
+    if (err) {
+      console.error('Database connection failed: ' + err.stack);
+      return;
+    }
+
     const app = express() 
-    const PORT:number = 3000
+    const PORT:string|number = process.env.PORT||3000
     app.use(express.json())
     app.use(morgan('dev'))
 
     app.use('/',router)
 
-    app.listen(PORT, ():void=> console.log(`this app is running on port ${PORT}`))
+    app.listen(PORT, ():void=> console.log(` Database connected and this app is running on port ${PORT}`))
+  
+    console.log('Connected to database.');
+    connection.end()
+  });
+// createConnection().then(async connection => {
+//     const app = express() 
+//     const PORT:string|number = process.env.PORT||3000
+//     app.use(express.json())
+//     app.use(morgan('dev'))
+
+//     app.use('/',router)
+
+//     app.listen(PORT, ():void=> console.log(` Database connected and this app is running on port ${PORT}`))
 
     
-}).catch(err => console.error(err))
+// }).catch(err => console.error(err))
 
 
 // createConnection().then(async connection => {

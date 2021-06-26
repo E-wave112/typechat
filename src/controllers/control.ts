@@ -2,7 +2,7 @@ import {Request,Response} from 'express';
 import * as jwt from 'jsonwebtoken';
 import {validate} from "class-validator"
 import {User} from '../entity/User.js'
-import {getManager} from "typeorm"
+import {getManager,getRepository} from "typeorm"
 
 //sign a json web token
 const welcome = (req:Request,res:Response) => {
