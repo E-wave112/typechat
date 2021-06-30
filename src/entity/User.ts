@@ -1,10 +1,10 @@
-import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity} from "typeorm";
 import {isEmail} from "class-validator"
 import * as bcrypt from "bcryptjs";
 
 @Entity()
-export class User {
-
+export class User extends BaseEntity{
+    
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
@@ -20,20 +20,15 @@ export class User {
     @UpdateDateColumn()
     updatedAt:Date
 
-    constructor(id:string,email:string,password:string,age:number,created:Date,updated:Date){
-        this.id= id;
-        this.email = email;
-        this.password = password;
-        this.createdAt = created;
-        this.updatedAt = updated
-    }
+    // constructor(id:string,email:string,password:string,created:Date,updated:Date){
+    //     this.id= id;
+    //     this.email = email;
+    //     this.password = password;
+    //     this.createdAt = created;
+    //     this.updatedAt = updated
+    // }
     //create a hashpassword method
     hashPassword() {
         this.password = bcrypt.hashSync(this.password, 8);
     }
-
-        //chheck the validity of an old password before it is changed
-        checkIfOldPasswordIsValid(unencryptedPassword: string) {
-            return bcrypt.compareSync(unencryptedPassword, this.password);
-          }
 }

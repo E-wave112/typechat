@@ -7,23 +7,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity } from "typeorm";
 import * as bcrypt from "bcryptjs";
-let User = class User {
-    constructor(id, email, password, age, created, updated) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.createdAt = created;
-        this.updatedAt = updated;
-    }
+let User = class User extends BaseEntity {
+    // constructor(id:string,email:string,password:string,created:Date,updated:Date){
+    //     this.id= id;
+    //     this.email = email;
+    //     this.password = password;
+    //     this.createdAt = created;
+    //     this.updatedAt = updated
+    // }
     //create a hashpassword method
     hashPassword() {
         this.password = bcrypt.hashSync(this.password, 8);
-    }
-    //chheck the validity of an old password before it is changed
-    checkIfOldPasswordIsValid(unencryptedPassword) {
-        return bcrypt.compareSync(unencryptedPassword, this.password);
     }
 };
 __decorate([
@@ -44,10 +40,19 @@ __decorate([
 ], User.prototype, "createdAt", void 0);
 __decorate([
     UpdateDateColumn(),
-    __metadata("design:type", Date)
+    __metadata("design:type", Date
+    // constructor(id:string,email:string,password:string,created:Date,updated:Date){
+    //     this.id= id;
+    //     this.email = email;
+    //     this.password = password;
+    //     this.createdAt = created;
+    //     this.updatedAt = updated
+    // }
+    //create a hashpassword method
+    )
 ], User.prototype, "updatedAt", void 0);
 User = __decorate([
-    Entity(),
-    __metadata("design:paramtypes", [String, String, String, Number, Date, Date])
+    Entity()
 ], User);
 export { User };
+//# sourceMappingURL=User.js.map

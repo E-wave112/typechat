@@ -27,3 +27,4 @@ createConnection({
     app.use('/', router);
     app.listen(PORT, () => console.log(` Database connected and this app is running on port ${PORT}`));
 }).catch(error => console.error(error));
+//# sourceMappingURL=index.js.map

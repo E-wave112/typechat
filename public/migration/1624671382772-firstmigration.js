@@ -17,3 +17,4 @@ export class firstmigration1624671382772 {
         });
     }
 }
+//# sourceMappingURL=1624671382772-firstmigration.js.map
