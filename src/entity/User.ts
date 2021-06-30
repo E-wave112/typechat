@@ -19,15 +19,7 @@ export class User extends BaseEntity{
 
     @UpdateDateColumn()
     updatedAt:Date
-
-    // constructor(id:string,email:string,password:string,created:Date,updated:Date){
-    //     this.id= id;
-    //     this.email = email;
-    //     this.password = password;
-    //     this.createdAt = created;
-    //     this.updatedAt = updated
-    // }
-    //create a hashpassword method
+    //hash password method before saving to db
     hashPassword() {
         this.password = bcrypt.hashSync(this.password, 8);
     }

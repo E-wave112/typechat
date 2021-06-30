@@ -5,13 +5,6 @@ import {User} from '../entity/User.js'
 import {getManager,getRepository} from "typeorm"
 import * as bcrypt from "bcryptjs"
 
-interface UserModel {
-    id:string
-    email:string
-    password:string
-    createdAt:Date
-    updatedAt:Date
-}
 //create an expiry date for our jwt token 1 day
 const MAXAGE:number = 24 * 60 * 60 * 1000
 
