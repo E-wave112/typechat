@@ -9,12 +9,12 @@ import * as bcrypt from "bcryptjs"
 const MAXAGE:number = 24 * 60 * 60 * 1000
 
 //create a jwt secret token
-const createToken = (id:string,email:string) => {
-    return jwt.sign({id,email},process.env.JWT_SECRET || "",{
-        expiresIn:process.env.JWT_EXPIRES
-    })
+// const createToken = (id:string) => {
+//     return jwt.sign({id},process.env.JWT_SECRET || "",{
+//         expiresIn:process.env.JWT_EXPIRES
+//     })
 
-}
+// }
 
 //sign a json web token
 const welcome = (req:Request,res:Response) => {
@@ -26,7 +26,7 @@ const welcome = (req:Request,res:Response) => {
 const loginGet = (req:Request,res:Response) => {
     res.render('login')
 }
-// 0423720010   
+
 //logining with credentials
 const loginPost = async (req:Request,res:Response) => {
     try {
@@ -41,9 +41,14 @@ const loginPost = async (req:Request,res:Response) => {
         let auth = await bcrypt.compare(password, findUser.password);
         if (!auth) return res.status(401).json({message:"invalid password"})
         //else login the user and create the token valid for one day
-        const token:string = createToken(findUser.id,email)
-        res.status(200).json({message:"login successfully",token})
-    } catch (err) {
+        const token:string = jwt.sign({email},process.env.JWT_SECRET || "",{
+            expiresIn:process.env.JWT_EXPIRES
+        })
+        return res.status(200).json({message:"login successfully",token})
+    
+    }
+       
+     catch (err) {
         console.error(err)
         res.status(500).send({message:err.message})
     }
@@ -58,21 +63,26 @@ const signUpGet = (req:Request,res:Response) => {
 //signing up with credentials
 const signUpPost = async (req:Request,res:Response) => {
     try {
-        let {email,password} = req.body
+    let {email,password} = req.body
     const newUser = new User()
     newUser.email = email
     newUser.password = password
+    
     //validate the input fields
     let errors = await validate(newUser)
-    if (errors) return res.status(500).json({message:errors})
+    console.log("errors are:",errors)
+    if (errors.length>0) return res.status(500).json({message:errors})
     //generate the token
-    const token:string = createToken(newUser.id,newUser.email)
-    res.cookie('jwtoken',token,{maxAge:MAXAGE,signed:true,httpOnly:true})
+    // const token:string = jwt.sign({email},process.env.JWT_SECRET || "",{
+    //     expiresIn:process.env.JWT_EXPIRES
+    // })
+    // res.cookie('jwtoken',token,{maxAge:MAXAGE,signed:true,httpOnly:true})
     const dbRepository = getRepository(User)
     await dbRepository.save(newUser)
-    res.status(201).send({message:"user created",token:token,user:newUser})
+    return res.status(201).send({message:"user created",user:newUser})
     } catch (err) {
-        res.status(500).send({messager:err.message})
+        console.error(err);
+        return res.status(500).send({message:err.message});
     }
 }
 

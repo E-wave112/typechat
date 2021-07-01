@@ -15,11 +15,11 @@ import * as bcrypt from "bcryptjs";
 //create an expiry date for our jwt token 1 day
 const MAXAGE = 24 * 60 * 60 * 1000;
 //create a jwt secret token
-const createToken = (id, email) => {
-    return jwt.sign({ id, email }, process.env.JWT_SECRET || "", {
-        expiresIn: process.env.JWT_EXPIRES
-    });
-};
+// const createToken = (id:string) => {
+//     return jwt.sign({id},process.env.JWT_SECRET || "",{
+//         expiresIn:process.env.JWT_EXPIRES
+//     })
+// }
 //sign a json web token
 const welcome = (req, res) => {
     res.send({ "text": "message" });
@@ -28,7 +28,6 @@ const welcome = (req, res) => {
 const loginGet = (req, res) => {
     res.render('login');
 };
-// 0423720010   
 //logining with credentials
 const loginPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -46,8 +45,10 @@ const loginPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!auth)
             return res.status(401).json({ message: "invalid password" });
         //else login the user and create the token valid for one day
-        const token = createToken(findUser.id, email);
-        res.status(200).json({ message: "login successfully", token });
+        const token = jwt.sign({ email }, process.env.JWT_SECRET || "", {
+            expiresIn: process.env.JWT_EXPIRES
+        });
+        return res.status(200).json({ message: "login successfully", token });
     }
     catch (err) {
         console.error(err);
@@ -67,17 +68,21 @@ const signUpPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         newUser.password = password;
         //validate the input fields
         let errors = yield validate(newUser);
-        if (errors)
+        console.log("errors are:", errors);
+        if (errors.length > 0)
             return res.status(500).json({ message: errors });
         //generate the token
-        const token = createToken(newUser.id, newUser.email);
-        res.cookie('jwtoken', token, { maxAge: MAXAGE, signed: true, httpOnly: true });
+        // const token:string = jwt.sign({email},process.env.JWT_SECRET || "",{
+        //     expiresIn:process.env.JWT_EXPIRES
+        // })
+        // res.cookie('jwtoken',token,{maxAge:MAXAGE,signed:true,httpOnly:true})
         const dbRepository = getRepository(User);
         yield dbRepository.save(newUser);
-        res.status(201).send({ message: "user created", token: token, user: newUser });
+        return res.status(201).send({ message: "user created", user: newUser });
     }
     catch (err) {
-        res.status(500).send({ messager: err.message });
+        console.error(err);
+        return res.status(500).send({ message: err.message });
     }
 });
 //signing out
