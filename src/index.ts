@@ -18,7 +18,12 @@ createConnection({
   entities: [
       User
   ],
-  synchronize: true,
+  migrations:["migration/*.js"],
+  cli:{
+    migrationsDir:"migration"
+
+  },
+  synchronize: false,
   logging: false
 }).then(connection => {
   // here you can start to work with your entities

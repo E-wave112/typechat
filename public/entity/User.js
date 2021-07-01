@@ -10,14 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity } from "typeorm";
 import * as bcrypt from "bcryptjs";
 let User = class User extends BaseEntity {
-    // constructor(id:string,email:string,password:string,created:Date,updated:Date){
-    //     this.id= id;
-    //     this.email = email;
-    //     this.password = password;
-    //     this.createdAt = created;
-    //     this.updatedAt = updated
-    // }
-    //create a hashpassword method
+    //hash password method before saving to db
     hashPassword() {
         this.password = bcrypt.hashSync(this.password, 8);
     }
@@ -41,14 +34,7 @@ __decorate([
 __decorate([
     UpdateDateColumn(),
     __metadata("design:type", Date
-    // constructor(id:string,email:string,password:string,created:Date,updated:Date){
-    //     this.id= id;
-    //     this.email = email;
-    //     this.password = password;
-    //     this.createdAt = created;
-    //     this.updatedAt = updated
-    // }
-    //create a hashpassword method
+    //hash password method before saving to db
     )
 ], User.prototype, "updatedAt", void 0);
 User = __decorate([
