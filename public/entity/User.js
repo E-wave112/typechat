@@ -12,7 +12,8 @@ import * as bcrypt from "bcryptjs";
 let User = class User extends BaseEntity {
     //hash password method before saving to db
     hashPassword() {
-        this.password = bcrypt.hashSync(this.password, 8);
+        this.password = bcrypt.hashSync(this.password);
+        return this.password;
     }
 };
 __decorate([
@@ -40,5 +41,5 @@ __decorate([
 User = __decorate([
     Entity()
 ], User);
-export { User };
+export default User;
 //# sourceMappingURL=User.js.map

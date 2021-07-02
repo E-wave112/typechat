@@ -3,11 +3,12 @@ import {isEmail} from "class-validator"
 import * as bcrypt from "bcryptjs";
 
 @Entity()
-export class User extends BaseEntity{
+export default class User extends BaseEntity{
     
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
+    
     @Column({type:"varchar",unique:true,nullable:false})
     email: string;
 
@@ -21,6 +22,8 @@ export class User extends BaseEntity{
     updatedAt:Date
     //hash password method before saving to db
     hashPassword() {
-        this.password = bcrypt.hashSync(this.password, 8);
+        this.password = bcrypt.hashSync(this.password);
+        return this.password
     }
+    
 }

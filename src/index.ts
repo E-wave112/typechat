@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import {createConnection} from "typeorm";
-import {User} from "./entity/User.js";
+import User from "./entity/User.js";
 import express from 'express';
 import { router } from "./routes/routes.js";
 import morgan from 'morgan';

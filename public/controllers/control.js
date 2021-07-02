@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import * as jwt from 'jsonwebtoken';
 import { validate } from "class-validator";
-import { User } from '../entity/User.js';
+import User from '../entity/User.js';
 import { getRepository } from "typeorm";
 import * as bcrypt from "bcryptjs";
 //create an expiry date for our jwt token 1 day
@@ -76,6 +76,7 @@ const signUpPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         //     expiresIn:process.env.JWT_EXPIRES
         // })
         // res.cookie('jwtoken',token,{maxAge:MAXAGE,signed:true,httpOnly:true})
+        newUser.hashPassword();
         const dbRepository = getRepository(User);
         yield dbRepository.save(newUser);
         return res.status(201).send({ message: "user created", user: newUser });
