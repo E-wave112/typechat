@@ -21,8 +21,8 @@ export default class User extends BaseEntity{
     @UpdateDateColumn()
     updatedAt:Date
     //hash password method before saving to db
-    hashPassword() {
-        this.password = bcrypt.hashSync(this.password);
+    async hashPassword() {
+        this.password = await bcrypt.hash(this.password,10);
         return this.password
     }
     

@@ -20,16 +20,18 @@ const MAXAGE = 24 * 60 * 60 * 1000;
 //         expiresIn:process.env.JWT_EXPIRES
 //     })
 // }
+class MainControllers {
+}
 //sign a json web token
-const welcome = (req, res) => {
+MainControllers.welcome = (req, res) => {
     res.send({ "text": "message" });
 };
 //render login view
-const loginGet = (req, res) => {
+MainControllers.loginGet = (req, res) => {
     res.render('login');
 };
 //logining with credentials
-const loginPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+MainControllers.loginPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         //login user
         let { email, password } = req.body;
@@ -56,11 +58,11 @@ const loginPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 //render signup view
-const signUpGet = (req, res) => {
+MainControllers.signUpGet = (req, res) => {
     res.render('signup');
 };
 //signing up with credentials
-const signUpPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+MainControllers.signUpPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let { email, password } = req.body;
         const newUser = new User();
@@ -76,7 +78,7 @@ const signUpPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         //     expiresIn:process.env.JWT_EXPIRES
         // })
         // res.cookie('jwtoken',token,{maxAge:MAXAGE,signed:true,httpOnly:true})
-        newUser.hashPassword();
+        yield newUser.hashPassword();
         const dbRepository = getRepository(User);
         yield dbRepository.save(newUser);
         return res.status(201).send({ message: "user created", user: newUser });
@@ -87,5 +89,5 @@ const signUpPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 //signing out
-export { welcome, loginGet, loginPost, signUpGet, signUpPost };
+export default MainControllers;
 //# sourceMappingURL=control.js.map

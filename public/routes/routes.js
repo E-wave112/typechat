@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { loginGet, loginPost, signUpGet, signUpPost, welcome } from '../controllers/control.js';
+import MainControllers from '../controllers/control.js';
 import "cookie-parser";
 export const router = Router();
-router.get('/welcome', welcome);
-router.get('/login', loginGet);
-router.post('/login', loginPost);
-router.get('/signup', signUpGet);
-router.post('/signup', signUpPost);
+router.get('/welcome', MainControllers.welcome);
+router.get('/login', MainControllers.loginGet);
+router.post('/login', MainControllers.loginPost);
+router.get('/signup', MainControllers.signUpGet);
+router.post('/signup', MainControllers.signUpPost);
 //# sourceMappingURL=routes.js.map

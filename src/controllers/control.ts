@@ -16,19 +16,24 @@ const MAXAGE:number = 24 * 60 * 60 * 1000
 
 // }
 
-//sign a json web token
-const welcome = (req:Request,res:Response) => {
-    res.send({"text":"message"})
-}
 
 
-//render login view
-const loginGet = (req:Request,res:Response) => {
-    res.render('login')
-}
 
-//logining with credentials
-const loginPost = async (req:Request,res:Response) => {
+
+class MainControllers {
+
+
+        //sign a json web token
+    static welcome = (req:Request,res:Response) => {
+        res.send({"text":"message"})
+    }
+
+        //render login view
+    static loginGet = (req:Request,res:Response) => {
+        res.render('login')
+    }
+    //logining with credentials
+    static loginPost = async (req:Request,res:Response) => {
     try {
         //login user
         let {email,password} = req.body
@@ -47,21 +52,21 @@ const loginPost = async (req:Request,res:Response) => {
         return res.status(200).json({message:"login successfully",token})
     
     }
-       
-     catch (err) {
+    
+    catch (err) {
         console.error(err)
         res.status(500).send({message:err.message})
     }
 }
 
 
-//render signup view
-const signUpGet = (req:Request,res:Response) => {
-    res.render('signup')
-}
+    //render signup view
+    static signUpGet = (req:Request,res:Response) => {
+        res.render('signup')
+    }
 
 //signing up with credentials
-const signUpPost = async (req:Request,res:Response) => {
+    static signUpPost = async (req:Request,res:Response) => {
     try {
     let {email,password} = req.body
     const newUser = new User()
@@ -77,7 +82,7 @@ const signUpPost = async (req:Request,res:Response) => {
     //     expiresIn:process.env.JWT_EXPIRES
     // })
     // res.cookie('jwtoken',token,{maxAge:MAXAGE,signed:true,httpOnly:true})
-    newUser.hashPassword()
+    await newUser.hashPassword()
     const dbRepository = getRepository(User)
     await dbRepository.save(newUser)
     return res.status(201).send({message:"user created",user:newUser})
@@ -86,7 +91,8 @@ const signUpPost = async (req:Request,res:Response) => {
         return res.status(500).send({message:err.message});
     }
 }
+}
 
 //signing out
 
-export {welcome,loginGet,loginPost,signUpGet,signUpPost}
+export default MainControllers;
