@@ -14,12 +14,6 @@ import { getRepository } from "typeorm";
 import * as bcrypt from "bcryptjs";
 //create an expiry date for our jwt token 1 day
 const MAXAGE = 24 * 60 * 60 * 1000;
-//create a jwt secret token
-// const createToken = (id:string) => {
-//     return jwt.sign({id},process.env.JWT_SECRET || "",{
-//         expiresIn:process.env.JWT_EXPIRES
-//     })
-// }
 class MainControllers {
 }
 //sign a json web token
@@ -74,20 +68,19 @@ MainControllers.signUpPost = (req, res) => __awaiter(void 0, void 0, void 0, fun
         if (errors.length > 0)
             return res.status(500).json({ message: errors });
         //generate the token
-        // const token:string = jwt.sign({email},process.env.JWT_SECRET || "",{
-        //     expiresIn:process.env.JWT_EXPIRES
-        // })
-        // res.cookie('jwtoken',token,{maxAge:MAXAGE,signed:true,httpOnly:true})
+        const token = jwt.sign({ email }, process.env.JWT_SECRET || "", {
+            expiresIn: process.env.JWT_EXPIRES
+        });
+        res.cookie('jwtoken', token, { maxAge: MAXAGE, signed: true, httpOnly: true });
         yield newUser.hashPassword();
         const dbRepository = getRepository(User);
         yield dbRepository.save(newUser);
-        return res.status(201).send({ message: "user created", user: newUser });
+        return res.status(201).send({ message: "user created", user: newUser, token: token });
     }
     catch (err) {
         console.error(err);
         return res.status(500).send({ message: err.message });
     }
 });
-//signing out
 export default MainControllers;
 //# sourceMappingURL=control.js.map

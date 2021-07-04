@@ -8,21 +8,7 @@ import * as bcrypt from "bcryptjs"
 //create an expiry date for our jwt token 1 day
 const MAXAGE:number = 24 * 60 * 60 * 1000
 
-//create a jwt secret token
-// const createToken = (id:string) => {
-//     return jwt.sign({id},process.env.JWT_SECRET || "",{
-//         expiresIn:process.env.JWT_EXPIRES
-//     })
-
-// }
-
-
-
-
-
 class MainControllers {
-
-
         //sign a json web token
     static welcome = (req:Request,res:Response) => {
         res.send({"text":"message"})
@@ -78,21 +64,19 @@ class MainControllers {
     console.log("errors are:",errors)
     if (errors.length>0) return res.status(500).json({message:errors})
     //generate the token
-    // const token:string = jwt.sign({email},process.env.JWT_SECRET || "",{
-    //     expiresIn:process.env.JWT_EXPIRES
-    // })
-    // res.cookie('jwtoken',token,{maxAge:MAXAGE,signed:true,httpOnly:true})
+    const token:string = jwt.sign({email},process.env.JWT_SECRET || "",{
+        expiresIn:process.env.JWT_EXPIRES
+    })
+    res.cookie('jwtoken',token,{maxAge:MAXAGE,signed:true,httpOnly:true})
     await newUser.hashPassword()
     const dbRepository = getRepository(User)
     await dbRepository.save(newUser)
-    return res.status(201).send({message:"user created",user:newUser})
+    return res.status(201).send({message:"user created",user:newUser,token:token})
     } catch (err) {
         console.error(err);
         return res.status(500).send({message:err.message});
     }
 }
 }
-
-//signing out
 
 export default MainControllers;

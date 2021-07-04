@@ -1,8 +1,11 @@
 import {Router} from 'express';
 import MainControllers from '../controllers/control.js';
-import "cookie-parser"
+//import  * as cookieParser from "cookie-parser"
+import cookieParser from 'cookie-parser';
 
 export const router = Router()
+
+router.use(cookieParser())
 
 router.get('/welcome',MainControllers.welcome);
 router.get('/login',MainControllers.loginGet)
