@@ -17,7 +17,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity } from "typeorm";
-import * as bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs";
 let User = class User extends BaseEntity {
     //hash password method before saving to db
     hashPassword() {

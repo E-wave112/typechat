@@ -5,8 +5,7 @@ import express from 'express';
 import { router } from "./routes/routes.js";
 import morgan from 'morgan';
 import {config} from "dotenv"
-config(
-)
+config()
 
 createConnection({
   type:"postgres",

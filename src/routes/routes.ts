@@ -5,10 +5,10 @@ import cookieParser from 'cookie-parser';
 
 export const router = Router()
 
-router.use(cookieParser())
+router.use(cookieParser("COOKIE"))
 
 router.get('/welcome',MainControllers.welcome);
-router.get('/login',MainControllers.loginGet)
+router.get('/login',MainControllers.loginGet);
 router.post('/login',MainControllers.loginPost);
-router.get('/signup',MainControllers.signUpGet)
-router.post('/signup',MainControllers.signUpPost)
+router.get('/signup',MainControllers.signUpGet);
+router.post('/signup',MainControllers.signUpPost);

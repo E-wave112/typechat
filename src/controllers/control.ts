@@ -1,9 +1,9 @@
 import {Request,Response} from 'express';
-import * as jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import {validate} from "class-validator" 
 import User from '../entity/User.js'
 import {getManager,getRepository} from "typeorm"
-import * as bcrypt from "bcryptjs"
+import bcrypt from "bcryptjs"
 
 //create an expiry date for our jwt token 1 day
 const MAXAGE:number = 24 * 60 * 60 * 1000
@@ -32,7 +32,7 @@ class MainControllers {
         let auth = await bcrypt.compare(password, findUser.password);
         if (!auth) return res.status(401).json({message:"invalid password"})
         //else login the user and create the token valid for one day
-        const token:string = jwt.sign({email},process.env.JWT_SECRET || "",{
+        const token:string = jwt.sign({email},process.env.JWT_SECRET || "SECRET",{
             expiresIn:process.env.JWT_EXPIRES
         })
         return res.status(200).json({message:"login successfully",token})
@@ -64,7 +64,7 @@ class MainControllers {
     console.log("errors are:",errors)
     if (errors.length>0) return res.status(500).json({message:errors})
     //generate the token
-    const token:string = jwt.sign({email},process.env.JWT_SECRET || "",{
+    const token:string = jwt.sign({email},process.env.JWT_SECRET||"SECRET",{
         expiresIn:process.env.JWT_EXPIRES
     })
     res.cookie('jwtoken',token,{maxAge:MAXAGE,signed:true,httpOnly:true})

@@ -1,6 +1,6 @@
 import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity} from "typeorm";
 import {isEmail} from "class-validator"
-import * as bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs";
 
 @Entity()
 export default class User extends BaseEntity{

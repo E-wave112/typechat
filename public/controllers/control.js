@@ -7,11 +7,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import * as jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import { validate } from "class-validator";
 import User from '../entity/User.js';
 import { getRepository } from "typeorm";
-import * as bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs";
 //create an expiry date for our jwt token 1 day
 const MAXAGE = 24 * 60 * 60 * 1000;
 class MainControllers {
@@ -41,7 +41,7 @@ MainControllers.loginPost = (req, res) => __awaiter(void 0, void 0, void 0, func
         if (!auth)
             return res.status(401).json({ message: "invalid password" });
         //else login the user and create the token valid for one day
-        const token = jwt.sign({ email }, process.env.JWT_SECRET || "", {
+        const token = jwt.sign({ email }, process.env.JWT_SECRET || "SECRET", {
             expiresIn: process.env.JWT_EXPIRES
         });
         return res.status(200).json({ message: "login successfully", token });
@@ -68,7 +68,7 @@ MainControllers.signUpPost = (req, res) => __awaiter(void 0, void 0, void 0, fun
         if (errors.length > 0)
             return res.status(500).json({ message: errors });
         //generate the token
-        const token = jwt.sign({ email }, process.env.JWT_SECRET || "", {
+        const token = jwt.sign({ email }, process.env.JWT_SECRET || "SECRET", {
             expiresIn: process.env.JWT_EXPIRES
         });
         res.cookie('jwtoken', token, { maxAge: MAXAGE, signed: true, httpOnly: true });
