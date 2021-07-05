@@ -20,7 +20,7 @@ createConnection({
     cli: {
         migrationsDir: "migration"
     },
-    synchronize: true,
+    synchronize: false,
     logging: false
 }).then(connection => {
     // here you can start to work with your entities

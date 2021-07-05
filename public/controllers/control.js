@@ -82,5 +82,9 @@ MainControllers.signUpPost = (req, res) => __awaiter(void 0, void 0, void 0, fun
         return res.status(500).send({ message: err.message });
     }
 });
+MainControllers.signOut = (req, res) => {
+    res.cookie('jwt', '', { httpOnly: true, maxAge: 1 });
+    return res.redirect('/');
+};
 export default MainControllers;
 //# sourceMappingURL=control.js.map

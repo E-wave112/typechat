@@ -9,4 +9,5 @@ router.get('/login', MainControllers.loginGet);
 router.post('/login', MainControllers.loginPost);
 router.get('/signup', MainControllers.signUpGet);
 router.post('/signup', MainControllers.signUpPost);
+router.get('/signout', MainControllers.signOut);
 //# sourceMappingURL=routes.js.map

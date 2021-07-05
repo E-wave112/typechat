@@ -76,7 +76,12 @@ class MainControllers {
         console.error(err);
         return res.status(500).send({message:err.message});
     }
-}
+  }
+
+  static signOut = (req:Request,res:Response) => {
+      res.cookie('jwt','',{httpOnly:true,maxAge:1})
+      return res.redirect('/')
+  }
 }
 
 export default MainControllers;
